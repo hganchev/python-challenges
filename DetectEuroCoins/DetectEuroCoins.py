@@ -135,16 +135,16 @@ for circle in circles[0]:
         #cv2.putText(image,"10Cent",(x, y), fontFace= 0, fontScale= 0.5, color = color_10Cent, thickness= 3)
         cv2.circle(image, (x, y), r, color_10Cent, 2)
     elif actualR > refRadius_20Cent - rLimLow_20Cent and actualR < refRadius_20Cent + rLimHigh_20Cent:
-        #cv2.putText(image,"10Cent",(x, y), fontFace= 0, fontScale= 0.5, color = color_20Cent, thickness= 3)
+        #cv2.putText(image,"20Cent",(x, y), fontFace= 0, fontScale= 0.5, color = color_20Cent, thickness= 3)
         cv2.circle(image, (x, y), r, color_20Cent, 2)
     elif actualR > refRadius_50Cent - rLimLow_50Cent and actualR < refRadius_50Cent + rLimHigh_50Cent:
-        #cv2.putText(image,"10Cent",(x, y), fontFace= 0, fontScale= 0.5, color = color_50Cent, thickness= 3)
+        #cv2.putText(image,"50Cent",(x, y), fontFace= 0, fontScale= 0.5, color = color_50Cent, thickness= 3)
         cv2.circle(image, (x, y), r, color_50Cent, 2)
     elif actualR > refRadius_1Euro - rLimLow_1Euro and actualR < refRadius_1Euro + rLimHigh_1Euro:
-        #cv2.putText(image,"10Cent",(x, y), fontFace= 0, fontScale= 0.5, color = color_1Euro, thickness= 3)
+        #cv2.putText(image,"1",(x, y), fontFace= 0, fontScale= 0.5, color = color_1Euro, thickness= 3)
         cv2.circle(image, (x, y), r, color_1Euro, 2)
     elif actualR > refRadius_2Euro - rLimLow_2Euro and actualR < refRadius_2Euro + rLimHigh_2Euro:
-        #cv2.putText(image,"10Cent",(x, y), fontFace= 0, fontScale= 0.5, color = color_2Euro, thickness= 3)
+        #cv2.putText(image,"2",(x, y), fontFace= 0, fontScale= 0.5, color = color_2Euro, thickness= 3)
         cv2.circle(image, (x, y), r, color_2Euro, 2)
     else:
         cv2.circle(image, (x, y), r, (255,255,255), 2)
