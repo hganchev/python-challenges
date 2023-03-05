@@ -3,8 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Load the image
-# image = cv2.imread('./euros2_quarter.bmp')
-image = cv2.imread('./euros4_ching.bmp')
+image = cv2.imread('./euros2_quarter.bmp')
+# image = cv2.imread('./euros4_ching.bmp')
 
 # Create a figure with two subplots
 fig, axs = plt.subplots(2, 2, figsize=(10, 8))
@@ -75,76 +75,76 @@ axs[1][0].set_title('Find Circles')
 
 # Find the pixel per mm for the the smallest radius
 print(radiuses)
-ppm = 16.25 / min(radiuses)
+ppm = (16.25) / (min(radiuses) * 2)
 print(str(ppm), 'min: ', str(min(radiuses)))
 
 # Coins parameters
-refRadius_1Cent = 16.25
+refDiam_1Cent = 16.25
 rLim_1Cent = 2
 color_1Cent = (80,127,255) # coral
 
-refRadius_2Cent = 18.75
+refDiam_2Cent = 18.75
 rLim_2Cent = 1.2
 color_2Cent = (0,140,255) # darkorange
 
-refRadius_5Cent = 21.25
-rLimLow_5Cent = -0.8
-rLimHigh_5Cent = 2
+refDiam_5Cent = 21.25
+rLimLow_5Cent = 0
+rLimHigh_5Cent = 1.5
 color_5Cent = (220,20,60) # crimpson
 
-refRadius_10Cent = 19.75
-rLimLow_10Cent = 1
-rLimHigh_10Cent = 2.1
+refDiam_10Cent = 19.75
+rLimLow_10Cent = -0.5
+rLimHigh_10Cent = 1.5
 color_10Cent = (0,215,255) # gold1
 
-refRadius_20Cent = 22.25
+refDiam_20Cent = 22.25
 rLimLow_20Cent = 0.95
-rLimHigh_20Cent = 1.6
+rLimHigh_20Cent = 1.7
 color_20Cent = (20,105,139) # goldenrod4
 
-refRadius_50Cent = 24.25
+refDiam_50Cent = 24.25
 rLimLow_50Cent = -1.1
-rLimHigh_50Cent = 1.5
+rLimHigh_50Cent = 1.8
 color_50Cent = (255,191,0) # deepskyblue1
 
-refRadius_1Euro = 23.25
+refDiam_1Euro = 23.25
 rLimLow_1Euro = 0
 rLimHigh_1Euro = 2.5
 color_1Euro = (139,61,72) # darkslateblue
 
-refRadius_2Euro = 25.75
+refDiam_2Euro = 25.75
 rLimLow_2Euro = 0
 rLimHigh_2Euro = 2.5
 color_2Euro = (10,30,255) # 
 
 # Find coins
 for circle in circles[0]:
-    rad = circle[2]
+    diam = circle[2] * 2
     x, y, r = map(int, circle)
-    actualR = rad*ppm
-    print("rad:", rad, "actualR: ", str(actualR))
-    if actualR > refRadius_1Cent - rLim_1Cent and actualR < refRadius_1Cent + rLim_1Cent:
+    actualDiam = diam*ppm
+    print("diameter:", diam, "actualDiam: ", str(actualDiam))
+    if actualDiam > refDiam_1Cent - rLim_1Cent and actualDiam < refDiam_1Cent + rLim_1Cent:
         #cv2.putText(image,"1Cent",(x, y), fontFace= 0, fontScale= 0.5, color = color_1Cent, thickness= 3)
         cv2.circle(image, (x, y), r, color_1Cent, 2)
-    elif actualR > refRadius_2Cent - rLim_2Cent and actualR < refRadius_2Cent + rLim_2Cent:
+    elif actualDiam > refDiam_2Cent - rLim_2Cent and actualDiam < refDiam_2Cent + rLim_2Cent:
         #cv2.putText(image,"2Cent",(x, y), fontFace= 0, fontScale= 0.5, color = color_2Cent, thickness= 3)
         cv2.circle(image, (x, y), r, color_2Cent, 2)
-    elif actualR > refRadius_5Cent - rLimLow_5Cent and actualR < refRadius_5Cent + rLimHigh_5Cent:
+    elif actualDiam > refDiam_5Cent - rLimLow_5Cent and actualDiam < refDiam_5Cent + rLimHigh_5Cent:
         #cv2.putText(image,"5Cent",(x, y), fontFace= 0, fontScale= 0.5, color = color_5Cent, thickness= 3)
         cv2.circle(image, (x, y), r, color_5Cent, 2)
-    elif actualR > refRadius_10Cent - rLimLow_10Cent and actualR < refRadius_10Cent + rLimHigh_10Cent:
+    elif actualDiam > refDiam_10Cent - rLimLow_10Cent and actualDiam < refDiam_10Cent + rLimHigh_10Cent:
         #cv2.putText(image,"10Cent",(x, y), fontFace= 0, fontScale= 0.5, color = color_10Cent, thickness= 3)
         cv2.circle(image, (x, y), r, color_10Cent, 2)
-    elif actualR > refRadius_20Cent - rLimLow_20Cent and actualR < refRadius_20Cent + rLimHigh_20Cent:
+    elif actualDiam > refDiam_20Cent - rLimLow_20Cent and actualDiam < refDiam_20Cent + rLimHigh_20Cent:
         #cv2.putText(image,"20Cent",(x, y), fontFace= 0, fontScale= 0.5, color = color_20Cent, thickness= 3)
         cv2.circle(image, (x, y), r, color_20Cent, 2)
-    elif actualR > refRadius_50Cent - rLimLow_50Cent and actualR < refRadius_50Cent + rLimHigh_50Cent:
+    elif actualDiam > refDiam_50Cent - rLimLow_50Cent and actualDiam < refDiam_50Cent + rLimHigh_50Cent:
         #cv2.putText(image,"50Cent",(x, y), fontFace= 0, fontScale= 0.5, color = color_50Cent, thickness= 3)
         cv2.circle(image, (x, y), r, color_50Cent, 2)
-    elif actualR > refRadius_1Euro - rLimLow_1Euro and actualR < refRadius_1Euro + rLimHigh_1Euro:
+    elif actualDiam > refDiam_1Euro - rLimLow_1Euro and actualDiam < refDiam_1Euro + rLimHigh_1Euro:
         #cv2.putText(image,"1",(x, y), fontFace= 0, fontScale= 0.5, color = color_1Euro, thickness= 3)
         cv2.circle(image, (x, y), r, color_1Euro, 2)
-    elif actualR > refRadius_2Euro - rLimLow_2Euro and actualR < refRadius_2Euro + rLimHigh_2Euro:
+    elif actualDiam > refDiam_2Euro - rLimLow_2Euro and actualDiam < refDiam_2Euro + rLimHigh_2Euro:
         #cv2.putText(image,"2",(x, y), fontFace= 0, fontScale= 0.5, color = color_2Euro, thickness= 3)
         cv2.circle(image, (x, y), r, color_2Euro, 2)
     else:
