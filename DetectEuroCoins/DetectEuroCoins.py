@@ -3,7 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Load the image
-image = cv2.imread('./euros2_quarter.bmp')
+# image = cv2.imread('./euros2_quarter.bmp')
+image = cv2.imread('./euros4_ching.bmp')
 
 # Create a figure with two subplots
 fig, axs = plt.subplots(2, 2, figsize=(10, 8))
@@ -12,7 +13,7 @@ fig, axs = plt.subplots(2, 2, figsize=(10, 8))
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 # Apply edge detection
-edges = cv2.Canny(gray, threshold1=150, threshold2=255, L2gradient=True)
+edges = cv2.Canny(gray, threshold1=50, threshold2=120, L2gradient=True)
 
 # Show the image in the first subplot
 axs[0][0].imshow(cv2.cvtColor(edges, cv2.COLOR_BGR2RGB))
