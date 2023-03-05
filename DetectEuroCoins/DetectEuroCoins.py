@@ -12,7 +12,7 @@ fig, axs = plt.subplots(2, 2, figsize=(10, 8))
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 # Apply edge detection
-edges = cv2.Canny(gray, threshold1=100, threshold2=255, L2gradient=True)
+edges = cv2.Canny(gray, threshold1=150, threshold2=255, L2gradient=True)
 
 # Show the image in the first subplot
 axs[0][0].imshow(cv2.cvtColor(edges, cv2.COLOR_BGR2RGB))
@@ -83,7 +83,7 @@ color_2Cent = (255,140,0) # darkorange
 
 refRadius_5Cent = 21.25
 rLimLow_5Cent = 0.7
-rLimHigh_5Cent = 1
+rLimHigh_5Cent = 0.55
 color_5Cent = (220,20,60) # crimpson
 
 refRadius_10Cent = 19.75
