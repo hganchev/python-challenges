@@ -4,7 +4,8 @@ import math
 # Auto-generated code below aims at helping you parse
 # the standard input according to the problem statement.
 
-cellsToLineNumbers = [] # cells that formes the line to cell with recource
+cellsWithRecources = [] # cells that formes the line to cell with recource
+cellsWithEggs = [] # cells that formes the line to cell with recource
 number_of_cells = int(input())  # amount of hexagonal cells in this map
 print("number_of_cells: ", number_of_cells, file=sys.stderr, flush=True)
 for i in range(number_of_cells):
@@ -12,8 +13,11 @@ for i in range(number_of_cells):
     # initial_resources: the initial amount of eggs/crystals on this cell
     # neigh_0: the index of the neighbouring cell for each direction
     _type, initial_resources, neigh_0, neigh_1, neigh_2, neigh_3, neigh_4, neigh_5 = [int(j) for j in input().split()]
-    if _type > 0:
-        cellsToLineNumbers.append(i)
+    if _type == 1:
+        cellsWithEggs.append(i)
+    if _type == 2:
+        cellsWithRecources.append(i)
+    
 
 number_of_bases = int(input())
 for i in input().split():
@@ -23,8 +27,10 @@ for i in input().split():
 
 # Do the actions
 actions = []
-for cell in cellsToLineNumbers:
-    actions.append("LINE " + str(my_base_index) + " " + str(cell) + " " + str(5))
+for cell in cellsWithEggs:
+    actions.append("LINE " + str(my_base_index) + " " + str(cell) + " " + str(2))
+for cell in cellsWithRecources:
+    actions.append("LINE " + str(my_base_index) + " " + str(cell) + " " + str(2))
 
 # game loop
 while True:
