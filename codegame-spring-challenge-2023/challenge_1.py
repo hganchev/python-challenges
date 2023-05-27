@@ -25,6 +25,10 @@ for i in input().split():
 for i in input().split():
     opp_base_index = int(i)
 
+# Sort for closest ones
+cellsWithEggs.sort()
+cellsWithRecources.sort()
+
 # Do the actions
 actions = []
 for cell in cellsWithEggs:
