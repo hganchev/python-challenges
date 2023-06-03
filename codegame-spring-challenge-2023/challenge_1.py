@@ -4,8 +4,8 @@ import math
 # Auto-generated code below aims at helping you parse
 # the standard input according to the problem statement.
 
-cellsWithRecources = [] # cells that formes the line to cell with recource
-cellsWithEggs = [] # cells that formes the line to cell with recource
+cellsWithResources = [] # cells that formes the line to cell with resource
+cellsWithEggs = [] # cells that formes the line to cell with resource
 number_of_cells = int(input())  # amount of hexagonal cells in this map
 print("number_of_cells: ", number_of_cells, file=sys.stderr, flush=True)
 for i in range(number_of_cells):
@@ -16,25 +16,55 @@ for i in range(number_of_cells):
     if _type == 1:
         cellsWithEggs.append(i)
     if _type == 2:
-        cellsWithRecources.append(i)
+        cellsWithResources.append(i)
     
 
 number_of_bases = int(input())
-for i in input().split():
-    my_base_index = int(i)
-for i in input().split():
-    opp_base_index = int(i)
+print("input: ", number_of_bases, file=sys.stderr, flush=True)
+if number_of_bases == 1:
+    for i in input().split():
+        my_base_index = int(i)
+        print("mybase: ", int(i), file=sys.stderr, flush=True)
+    for i in input().split():
+        opp_base_index = int(i)
+        print("oponent base: ", int(i), file=sys.stderr, flush=True)
 
-# Sort for closest ones
-cellsWithEggs.sort()
-cellsWithRecources.sort()
+    # Sort for closest ones
+    if my_base_index > 30:
+        cellsWithEggs.sort(reverse = True)
+        cellsWithResources.sort(reverse = True)
+    else:
+        cellsWithEggs.sort()
+        cellsWithResources.sort()
 
-# Do the actions
-actions = []
-for cell in cellsWithEggs:
-    actions.append("LINE " + str(my_base_index) + " " + str(cell) + " " + str(2))
-for cell in cellsWithRecources:
-    actions.append("LINE " + str(my_base_index) + " " + str(cell) + " " + str(2))
+    # Do the actions
+    actions = []
+    for cell in cellsWithEggs:
+        actions.append("LINE " + str(my_base_index) + " " + str(cell) + " " + str(2))
+    for cell in cellsWithResources:
+        actions.append("LINE " + str(my_base_index) + " " + str(cell) + " " + str(2))
+else:
+    my_base_index = []
+    opp_base_index = []
+    for i in input().split():
+        my_base_index.append(int(i))
+        print("mybase: ", int(i), file=sys.stderr, flush=True)
+    for i in input().split():
+        opp_base_index.append(int(i))
+        print("oponent base: ", int(i), file=sys.stderr, flush=True)
+
+    # Sort for closest ones
+    cellsWithEggs.sort()
+    cellsWithResources.sort()
+
+    # Do the actions
+    actions = []
+    for cell in cellsWithEggs:
+        for base_index in my_base_index:
+            actions.append("LINE " + str(base_index) + " " + str(cell) + " " + str(2))
+    for cell in cellsWithResources:
+        for base_index in my_base_index:
+            actions.append("LINE " + str(base_index) + " " + str(cell) + " " + str(2))
 
 # game loop
 while True:
