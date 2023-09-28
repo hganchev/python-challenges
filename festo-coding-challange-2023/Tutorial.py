@@ -22,4 +22,27 @@
 
 # "Maybe."
 
+import matplotlib.pyplot as plt
+from PIL import Image
+import numpy as np
+
+# Read the cipher matrix from the file cipher_matrix.png and add it to the plot.
+cifer_matrix_img = Image.open('cipher_matrix.png')
+
+# Read the cipher plates from the files plate_01.png, plate_02.png and plate_03.png and add them to the plot.
+plate_1_img = Image.open('plate_01.png')
+plate_2_img = Image.open('plate_02.png')
+plate_3_img = Image.open('plate_03.png')
+
+# Create a plot with 1 row and 1 column and show the cipher matrix and the cipher plates on top.
+cifer_matrix_img_array = np.array(cifer_matrix_img)
+plate_1_img_array = np.array(plate_1_img)
+plate_2_img_array = np.array(plate_2_img)
+plate_3_img_array = np.array(plate_3_img)
+
+imgplot = plt.imshow(cifer_matrix_img_array)
+imgplot = plt.imshow(plate_1_img_array)
+imgplot = plt.imshow(plate_2_img_array)
+imgplot = plt.imshow(plate_3_img_array)
+plt.show()
 
