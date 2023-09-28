@@ -50,4 +50,4 @@ keymaker_ordered.head()
 
 # Find the ordered key
 ordered_key = keymaker_ordered[keymaker_ordered['ordered'] == True]['key'].values[0]
-print(ordered_key)
+print(ordered_key) # bbbcccceeeffff
