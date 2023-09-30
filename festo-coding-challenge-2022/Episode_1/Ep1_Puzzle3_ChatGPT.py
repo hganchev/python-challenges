@@ -26,7 +26,7 @@ import numpy as np
 import re
 
 # Load the data from security_log.txt into a DataFrame
-df = pd.read_csv('security_log.txt', sep='\n\n\n', header=None, names=['entry'], engine='python')
+df = pd.read_csv('data/security_log.txt', sep='\n\n\n', header=None, names=['entry'], engine='python')
 df['entry'] = df['entry'].str.strip()
 
 # Extract the places and the in/out logs into separate columns
@@ -57,7 +57,7 @@ for i, row in df.iterrows():
                 places[place].remove(name)
 # print(places["Bio-Lab"])
 # Load the sequence of places visited by Jelly Jones into a NumPy array
-sequence = np.loadtxt('place_sequence.txt', dtype=str, usecols=0)
+sequence = np.loadtxt('data/place_sequence.txt', dtype=str, usecols=0)
 
 # Find the people who visited the sequence of places in order
 visited = set()
@@ -69,7 +69,8 @@ for place in sequence:
 print(visited)
 # Calculate the sum of the IDs of all people who visited the places in order
 ## Read population processed
-populationDf = pd.read_csv('population_processed.txt',skiprows=0)
+populationDf = pd.read_csv('data/population_processed.txt', header=None, sep=', ')
+populationDf.columns = ["Name", "ID", "planet", "blood sample"]
 # print(populationDf['Name'])
 ## calculate sum
 sum = 0
