@@ -15,63 +15,40 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-def CalculateDistance(point, planePoint, normalVector = np.array([1,1,1])):
-    # a plane is a*x+b*y+c*z+d=0
-    # [a,b,c] is the normal. Thus, we have to calculate
-    # d and we're set
-    d = -np.dot(planePoint,normalVector) #
-    distance = abs(np.dot(point, normalVector) + d)/math.sqrt(normalVector[0]**2 + normalVector[1]**2 + normalVector[2]**2)
-    return distance
 
-galaxiMap = open('data/galaxy_map.txt')
+# Read the galaxy map
+galaxy_map = pd.read_csv('data/galaxy_map.txt', sep=": ", header=None)
+galaxy_map.columns = ["planet", "vector"]
+galaxy_map['vector'] = galaxy_map['vector'].str[1:-1]
+galaxy_map['planet'] = galaxy_map['planet'].apply(lambda x: x.strip())
+galaxy_map[['x','y','z']] = galaxy_map['vector'].str.split(", ",expand=True).astype("float")
+galaxy_map.head()
 
-listPlanetCoord = []
-for line in galaxiMap:
-    listPlanetCoord.append(line.rstrip().replace(' ','').split(':'))
-print(listPlanetCoord[0])
-listPlanetNames = []
-listXCoord = []
-listYCoord = []
-listZCoord = []
-for coord in listPlanetCoord:
-    x,y,z = (str(coord[1]).replace('(','').replace(')','').split(','))
-    listPlanetNames.append(coord[0])
-    listXCoord.append(float(x))
-    listYCoord.append(float(y))
-    listZCoord.append(float(z))
-print(listXCoord[0], listYCoord[0], listZCoord[0])
+# Create a galaxy plane 
+plane = Plane(Point3D(0, 0, 0), normal_vector=(0, 0, 2))
 
-## make galaxy dataframe 
-galaxyDf = pd.DataFrame({'PlanetName': listPlanetNames, 
-    'x': listXCoord, 
-    'y': listYCoord, 
-    'z': listZCoord})
-print(galaxyDf)
+# Calculate the distance of each planet from the plane
+galaxy_map['distance'] = galaxy_map.apply(lambda x: plane.distance(Point3D(x['x'], x['y'], x['z'])), axis=1)
+galaxy_map.head()
 
-# define the plane with point and normal vector
-# pointPlane  = np.array([20, 40, 70])
-# normaVector = np.array([-10, -20, -50])
-plane = Plane(Point3D(25, 35, 65), Point3D(40, 30, 50), Point3D(20, 20, 20))
-# print(pointPlane)
-## calculate distance from plane
-outlierPlanetList = []
-for i in range(len(galaxyDf)):
-    point = Point(galaxyDf['x'][i],galaxyDf['y'][i],galaxyDf['z'][i])
-    # distance = CalculateDistance(point,pointPlane, normaVector) 
-    distance = float(point.distance(plane))
-    if distance >= 10:
-        # print('calculated distance : ',distance)
-        outlierPlanetList.append(galaxyDf['PlanetName'][i])
-# print(outlierPlanetList)
+# Create a new column to identify outlier planets
+galaxy_map['outlier'] = galaxy_map['distance'].apply(lambda x: True if x >= 10 else False)
+galaxy_map.head()
 
-## Read population processed
-populationDf = pd.read_csv('population_processed.txt',skiprows=0)
-print(populationDf['Name'])
+# Take only outlier planets
+outlier_planets = galaxy_map[galaxy_map['outlier'] == True]
+outlier_planets.head()
 
-## find outleirs
-sum = 0
-for i in range(len(populationDf)):
-    for j in range(len(outlierPlanetList)):
-        if populationDf['HomePlanet'][i].replace(' ','') == outlierPlanetList[j]:
-            sum = sum + int(populationDf['ID'][i])
-print('The sum of the IDs of all people with outlier planet: ',sum) 
+# Read the population
+population = pd.read_csv('data/population_processed.txt', sep=", ", header=None)
+population.columns = ["name", "id", "planet", "blood sample"]
+population['planet'] = population['planet'].apply(lambda x: x.strip())
+population.head()
+
+# Merge the two dataframes
+inhabitants = pd.merge(population, outlier_planets, on='planet', how='inner')
+inhabitants.head()
+
+print(sum(inhabitants['id']))
+
+

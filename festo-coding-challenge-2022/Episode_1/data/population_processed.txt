@@ -1,4 +1,3 @@
-Name,ID,HomePlanet,BloodSample
  Bekele Prakash, 8385864, Censa III,  +--------+  |oopc ooc|  |oc i ici|  |p c   ic|  |p p co p|  |coc  i o|  |o cp pp |  +--------+
  Xiaowei Morales, 9781607, Gamma Crus,  +--------+  |o   p oc|  |i c pi i|  |ii oppc |  |opc c p |  |c i   co|  |p oc ici|  +--------+
  Habiba Duarte, 8678477, Venis VII,  +--------+  |iip  cop|  |p iipp  |  | o  c ii|  |  o coo |  |  cpc po|  |  ciip c|  +--------+
