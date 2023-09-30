@@ -23,7 +23,7 @@ def CalculateDistance(point, planePoint, normalVector = np.array([1,1,1])):
     distance = abs(np.dot(point, normalVector) + d)/math.sqrt(normalVector[0]**2 + normalVector[1]**2 + normalVector[2]**2)
     return distance
 
-galaxiMap = open('galaxy_map.txt')
+galaxiMap = open('data/galaxy_map.txt')
 
 listPlanetCoord = []
 for line in galaxiMap:

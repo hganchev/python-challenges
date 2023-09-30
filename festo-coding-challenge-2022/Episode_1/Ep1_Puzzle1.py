@@ -38,7 +38,7 @@ import numpy as np
 import pandas as pd
 
 ## Open file
-population = open('population.txt').read()
+population = open('data/population.txt').read()
 populationSplit = population.split("\n\n")
 print(populationSplit[0]) 
 
