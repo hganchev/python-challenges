@@ -44,16 +44,7 @@
 
 import pandas as pd
 import numpy as np
-import math
-
-def closeness(a, b):
-  """Returns measure of equality (for two floats), in unit
-     of decimal significant figures."""
-  if a == b:
-    return float("infinity")
-  difference = abs(a - b)
-  avg = (a + b) / 2
-  return math.log10(avg / difference)
+from decimal import Decimal
 
 # Read in the data/13_trap_balance.txt file 
 # and store it in a variable called trap_balance
@@ -62,20 +53,29 @@ trap_balance_df.columns = ['trap']
 trap_balance_df.index = trap_balance_df.index.astype(int)
 
 # Calculate the sum of the weights on each side of the trap
-# if one of the flasks is smaller than 1.e-5, then it is considered 0
-trap_balance_df['sum_left'] = trap_balance_df['trap'].apply(lambda x: sum([1/int(i) for i in x.split(' - ')[0].split(' ') if len(i) <= 5]))
-trap_balance_df['sum_right'] = trap_balance_df['trap'].apply(lambda x: sum([1/int(i) for i in x.split(' - ')[1].split(' ') if len(i) <= 5]))
+trap_balance_df['sum_left'] = trap_balance_df['trap'].apply(lambda x: sum([Decimal(1/int(i)) for i in x.split(' - ')[0].split(' ')]))
+trap_balance_df['sum_right'] = trap_balance_df['trap'].apply(lambda x: sum([Decimal(1/int(i)) for i in x.split(' - ')[1].split(' ')]))
 
 # Calculate the number of flasks on each side of the trap
 trap_balance_df['num_left'] = trap_balance_df['trap'].apply(lambda x: len(x.split(' - ')[0].split(' ')))
 trap_balance_df['num_right'] = trap_balance_df['trap'].apply(lambda x: len(x.split(' - ')[1].split(' ')))
 
-# Calculate the number of unique flasks on each side of the trap
+# find the count of unique flasks on each side of the trap
 trap_balance_df['unique_left'] = trap_balance_df['trap'].apply(lambda x: len(set(x.split(' - ')[0].split(' '))))
 trap_balance_df['unique_right'] = trap_balance_df['trap'].apply(lambda x: len(set(x.split(' - ')[1].split(' '))))
 
+# find the unique flasks left to not be in the unique right and vice versa
+trap_balance_df['unique_both'] = trap_balance_df.apply(lambda x: len(set(x['trap'].split(' - ')[0].split(' ')).intersection(set(x['trap'].split(' - ')[1].split(' ')))), axis=1)
+
 # Find the traps that are safe
-trap_balance_df['safe'] = (abs(trap_balance_df['sum_left']-trap_balance_df['sum_right']) == 0) & (trap_balance_df['num_left'] == trap_balance_df['num_right']) & (trap_balance_df['unique_left'] == trap_balance_df['unique_right'])
+# 1. Equality: Both sides of the scale must contain the same number of objects.
+# 2. Equality: Both sides of the scale must carry exactly the same weight.
+# 3. Diversity: All objects on the scale must have different weights. No two objects may have the same weight.
+equality_1 = (trap_balance_df['num_left'] == trap_balance_df['num_right'])
+equality_2 = (trap_balance_df['sum_left'] == trap_balance_df['sum_right'])
+diversity_3 = (trap_balance_df['unique_both'] == 0) & (trap_balance_df['unique_left'] == trap_balance_df['num_left']) & (trap_balance_df['unique_right'] == trap_balance_df['num_right'])
+trap_balance_df['safe'] = equality_1 & equality_2 & diversity_3
+
 print(trap_balance_df[trap_balance_df['safe'] == True])
 print("count: ", len(trap_balance_df[trap_balance_df['safe'] == True]))
 
